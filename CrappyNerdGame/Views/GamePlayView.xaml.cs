@@ -28,7 +28,6 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
     private readonly List<PipePair> m_pipePairs = [];
     private readonly List<GameObject2D> m_skyElements = [];
 
-
     private readonly Vector2[] m_skyElementSpawnPositions =
     [
         new(x: 600, y: 119),
@@ -38,7 +37,6 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
     private const double SkyElementLeftKillX = -260;
     private const int SkyElementSpeed = 2;
-
 
     private readonly DispatcherTimer m_gameTimer = new();
 

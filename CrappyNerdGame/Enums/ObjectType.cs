@@ -5,5 +5,5 @@ public enum ObjectType
     Player,
     SkyElement,
     PipeTop,
-    PipeBottom,
+    PipeBottom
 }

@@ -21,5 +21,4 @@ public partial class StartMenuView : GameViewBase
     }
 
     private void QuitButtonClick(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
-
 }
