@@ -37,10 +37,9 @@ public class GameObject2D
         Type = type;
     }
 
-    public void SetPosition(Vector2 position) => (X, Y) = (position.X, position.Y);
-
     public bool IntersectsWith(GameObject2D other) => HitBox.IntersectsWith(other.HitBox);
 
+    public void SetPosition(Vector2 position) => (X, Y) = (position.X, position.Y);
 
     public void SetRotation(double angle) => Sprite.RenderTransform = new RotateTransform(angle);
 }
