@@ -1,0 +1,62 @@
+﻿<Window x:Class="CrappyNerdGame.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CrappyNerdGame"
+        xmlns:viewModels="clr-namespace:CrappyNerdGame.ViewModels"
+        xmlns:views="clr-namespace:CrappyNerdGame.Views"
+        xmlns:enums="clr-namespace:CrappyNerdGame.Enums"
+        mc:Ignorable="d"
+        Title="Crappy Nerd"
+        ResizeMode="NoResize" 
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        Closing="MainWindow_OnClosing"
+        Width="800" Height="460">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+        <!-- ReSharper disable once Xaml.RedundantResource Used from codebehind-->
+        <Storyboard x:Key="{x:Static enums:FadeType.FadeFromBlack}">
+            <DoubleAnimation
+                Storyboard.TargetName="BlackFade"
+                Storyboard.TargetProperty="Opacity"
+                From="1" To="0"
+                Duration="0:0:0.8"
+                FillBehavior="HoldEnd" />
+        </Storyboard>
+        
+        <!-- ReSharper disable once Xaml.RedundantResource Used from codebehind-->
+        <Storyboard x:Key="{x:Static enums:FadeType.FadeToBlack}">
+            <DoubleAnimation
+                Storyboard.TargetName="BlackFade"
+                Storyboard.TargetProperty="Opacity"
+                From="0" To="1"
+                Duration="0:0:0.8"
+                FillBehavior="HoldEnd" />
+        </Storyboard>
+    </Window.Resources>
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid x:Name="RootGrid">
+        <ContentPresenter  x:Name="View" Content="{Binding ActiveView}" Focusable="True" />
+        <Rectangle x:Name="BlackFade"
+                   Fill="Black"
+                   Opacity="0"
+                   IsHitTestVisible="False"/>
+        <views:GameOverView x:Name="GameOverOverlay" 
+                            Score="{Binding Score}"
+                            RestartCommand="{Binding RestartCommand}"
+                            StartMenuCommand="{Binding StartMenuCommand}"
+                            Visibility="{Binding IsGameOver, Converter={StaticResource BoolToVisibilityConverter}}">
+            <views:GameOverView.Effect>
+                <DropShadowEffect Color="Black"
+                                  BlurRadius="25"
+                                  ShadowDepth="0"
+                                  Opacity="0.6"/>
+            </views:GameOverView.Effect>
+        </views:GameOverView>
+    </Grid>
+</Window>

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\PixelHigh.ttf" />
+    <Resource Include="Assets\Fonts\ThaleahFat.ttf" />
+    <Resource Include="Assets\Images\PipeUp.png" />
+    <Resource Include="Assets\Images\PipeDown.png" />
+    <Resource Include="Assets\Images\Nerd.png" />
+    <Resource Include="Assets\Images\Cloud1.png" />
+    <Resource Include="Assets\Images\Cloud2.png" />
+    <Resource Include="Assets\Images\Moon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Music\TempestLoop1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Music\EchoesAtDuskLoop1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
