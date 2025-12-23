@@ -1,5 +1,7 @@
 ## About the project
 
+![Gameplay screenshot](https://github.com/JEronen/CrappyNerdGame/blob/master/Screenshots/Gameplay.png)
+
 A Flappy Bird–style game built with **C#** and **WPF**.
 
 - Language version: **C# 14**
