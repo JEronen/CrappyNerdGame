@@ -1,5 +1,23 @@
-﻿## License
+## About the project
 
-- **Code** is licensed under the MIT License (see `LICENSE`)
-- **Artwork** is licensed under Creative Commons Attribution 4.0 (CC BY 4.0) (see `ARTWORK_LICENSE.txt`)
-- **Third-party assets** are listed in `THIRD_PARTY_NOTICES.txt`
+A Flappy Bird–style game built with **C#** and **WPF**.
+
+- Language version: **C# 14**
+- Target framework: **.NET 10.0-windows**
+
+This project was created as a learning exercise to explore how game-like mechanics,
+animation, and audio can be handled in WPF, and how game code can be combined with
+the **MVVM** design pattern.
+
+## Getting started
+
+1. Clone the repository
+2. Open the solution in **JetBrains Rider 2025.3.1 (or newer)** or **Visual Studio 2022 (or newer)**
+3. Build and run
+
+## License
+
+- **Code**: MIT License (see `LICENSE`)
+- **Artwork**: Creative Commons Attribution 4.0 (CC BY 4.0) (see `ARTWORK_LICENSE.txt`)
+- **Third-party assets**: listed in `THIRD_PARTY_NOTICES.txt`
+
