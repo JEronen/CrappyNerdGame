@@ -23,3 +23,9 @@ the **MVVM** design pattern.
 - **Artwork**: Creative Commons Attribution 4.0 (CC BY 4.0) (see `ARTWORK_LICENSE.txt`)
 - **Third-party assets**: listed in `THIRD_PARTY_NOTICES.txt`
 
+## TODO
+- [ ] Add App icon.
+- [ ] Store high scores.
+- [ ] Add increasing difficulty.
+
+
