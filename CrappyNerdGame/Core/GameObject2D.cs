@@ -28,7 +28,7 @@ public class GameObject2D
 
     public double Height => Sprite.Height;
 
-    private Rect HitBox => new(X, Y, Width-12, Height-12);
+    private Rect HitBox => new(X, Y, Width-10, Height-10);
 
     public GameObject2D(Image sprite, ObjectType type)
     {
