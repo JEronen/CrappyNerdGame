@@ -14,7 +14,7 @@ the **MVVM** design pattern.
 ## Getting started
 
 1. Clone the repository
-2. Open the solution in **JetBrains Rider 2025.3.1 (or newer)** or **Visual Studio 2022 (or newer)**
+2. Open the solution in **JetBrains Rider 2025.3.1 (or newer)** or **Visual Studio 2026 (or newer)**
 3. Build and run
 
 ## License
@@ -27,5 +27,6 @@ the **MVVM** design pattern.
 - [ ] Add App icon.
 - [ ] Store high scores.
 - [ ] Add increasing difficulty.
+- [ ] Read gameplay settings from an external file.
 
 
