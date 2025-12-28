@@ -2,6 +2,7 @@
 using CrappyNerdGame.Args;
 using CrappyNerdGame.Core;
 using CrappyNerdGame.Enums;
+using CrappyNerdGame.ViewModels;
 
 namespace CrappyNerdGame.Views;
 
@@ -15,7 +16,7 @@ public abstract class GameViewBase: UserControl
 
     protected void RequestView(ViewType type, GameStatsUpdate statsUpdate) => ViewRequested?.Invoke(this, new NavigationEventArgs(type, statsUpdate));
 
-    public virtual void Activate()
+    public virtual void Activate(MainWindowViewModel mainViewModel)
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using CrappyNerdGame.Core;
 using CrappyNerdGame.Enums;
+using CrappyNerdGame.ViewModels;
 
 namespace CrappyNerdGame.Views;
 
@@ -12,7 +12,7 @@ public partial class StartMenuView : GameViewBase
         ViewType = ViewType.StartMenu;
     }
 
-    public override void Activate() => AudioPlayer.Play("Assets/Music/EchoesAtDuskLoop1.wav");
+    public override void Activate(MainWindowViewModel mainViewModel) => mainViewModel.AudioPlayer.Play("Assets/Music/EchoesAtDuskLoop1.wav");
 
     private void RequestViewButtonClick(object sender, RoutedEventArgs e)
     {

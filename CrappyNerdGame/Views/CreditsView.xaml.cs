@@ -1,16 +1,20 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using CrappyNerdGame.Enums;
+using CrappyNerdGame.ViewModels;
 
 namespace CrappyNerdGame.Views;
 
 public partial class CreditsView : GameViewBase
 {
-    private const double Speed = 26;
+    private const double Speed = 95;
 
     private bool m_isScrolling;
     private double m_y;
+    private Stopwatch m_stopwatch;
+    private DateTime m_lastFrameTime;
 
     public CreditsView()
     {
@@ -18,9 +22,11 @@ public partial class CreditsView : GameViewBase
         InitializeComponent();
     }
 
-    public override void Activate()
+    public override void Activate(MainWindowViewModel mainViewModel)
     {
         m_y = 500;
+        m_stopwatch = Stopwatch.StartNew();
+        m_lastFrameTime = DateTime.Now;
         CreditsTransform.Y = m_y;
         m_isScrolling = true;
         CompositionTarget.Rendering += OnRendering;
@@ -31,7 +37,11 @@ public partial class CreditsView : GameViewBase
         if (!m_isScrolling)
             return;
 
-        m_y -= Speed / 60.0;
+        var now = DateTime.Now;
+        var deltaTime = (now - m_lastFrameTime).TotalSeconds;
+        m_lastFrameTime = now;
+
+        m_y -= Speed * deltaTime;
         CreditsTransform.Y = m_y;
 
         if (m_y < -CreditsPanel.ActualHeight)
@@ -41,6 +51,7 @@ public partial class CreditsView : GameViewBase
     private void StopScrolling()
     {
         m_isScrolling = false;
+        m_stopwatch.Reset();
         CompositionTarget.Rendering -= OnRendering;
     }
 

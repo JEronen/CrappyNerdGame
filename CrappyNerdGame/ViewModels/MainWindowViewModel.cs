@@ -26,8 +26,11 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
 
     public RelayCommand StartMenuCommand { get; }
 
+    public AudioPlayer AudioPlayer { get; }
+
     public MainWindowViewModel()
     {
+        AudioPlayer = new AudioPlayer();
         m_viewContainer = new ViewContainer();
         SetView(ViewType.StartMenu);
         RestartCommand = new RelayCommand(() => SetView(ViewType.GamePlay));
@@ -43,13 +46,13 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
         {
             if (ActiveView.ViewType == type)
             {
-                ActiveView.Activate();
+                ActiveView.Activate(this);
                 return;
             }
             ActiveView.ViewRequested -= OnViewRequested;
         }
         ActiveView = m_viewContainer.GetView(type);
-        ActiveView.Activate();
+        ActiveView.Activate(this);
         ActiveView.ViewRequested += OnViewRequested;
     }
 

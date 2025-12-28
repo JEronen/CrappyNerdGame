@@ -7,13 +7,15 @@
         xmlns:viewModels="clr-namespace:CrappyNerdGame.ViewModels"
         xmlns:views="clr-namespace:CrappyNerdGame.Views"
         xmlns:enums="clr-namespace:CrappyNerdGame.Enums"
+        xmlns:core="clr-namespace:CrappyNerdGame.Core"
         mc:Ignorable="d"
         Title="Crappy Nerd"
         ResizeMode="NoResize" 
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         Closing="MainWindow_OnClosing"
-        Width="800" Height="460">
+        Width="{x:Static core:GameWindowSettings.Width}"
+        Height="{x:Static core:GameWindowSettings.Height}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 

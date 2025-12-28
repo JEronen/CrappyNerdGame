@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:CrappyNerdGame.Views"
+             xmlns:core="clr-namespace:CrappyNerdGame.Core"
              Loaded="CreditsView_OnLoaded"
              Unloaded="CreditsView_OnUnloaded"
              mc:Ignorable="d"
              Focusable="True"
-             Width="800"
-             Height="600">
-    <Grid Background="Black">
+             Width="{x:Static core:GameWindowSettings.Width}"
+             Height="{x:Static core:GameWindowSettings.Height}">
+    <Grid Background="Black" Height="650">
         <Grid.Resources>
             <Storyboard x:Key="ScrollCredits" FillBehavior="Stop">
                 <DoubleAnimation
@@ -18,7 +19,7 @@
                     Storyboard.TargetProperty="Y"
                     From="600"
                     To="-800"
-                    Duration="0:0:30"/>
+                    Duration="0:0:26"/>
             </Storyboard>
 
             <Style x:Key="CreditsSectionHeader" TargetType="TextBlock">
@@ -105,6 +106,9 @@
 
             <TextBlock Text="Licensed under Creative Commons Attribution 4.0 (CC BY 4.0)"
                        Style="{StaticResource CreditsLicense}"/>
+            
+            <TextBlock Text="Sound effects were generated with Bfxr2 (http://www.bfxr.net/)"
+                       Style="{StaticResource CreditsSectionHeader}"/>
         </StackPanel>
     </Grid>
 

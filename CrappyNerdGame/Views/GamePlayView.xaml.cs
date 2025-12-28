@@ -3,26 +3,29 @@ using System.Numerics;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using CrappyNerdGame.Core;
 using CrappyNerdGame.Enums;
 using CrappyNerdGame.Extensions;
+using CrappyNerdGame.ViewModels;
 
 namespace CrappyNerdGame.Views;
 
 public sealed partial class GamePlayView : GameViewBase, IDisposable
 {
     private const int FlapRotation = -20;
-    private const int FlapGravity = -8;
     private const int FallRotation = 5;
-    private const int FallGravity = 8;
-    private const int PipeSpeed = 5;
+    private const int Gravity = 1800;
+    private const int FlapImpulse = -400;
+    private const int MaxFallSpeed = 950;
+    private const int PipeSpeed = 200;
     private const int PipeCount = 3;
     private const int PipeX = 500;
-    private const double PipeSpacing = 300;
-    private const double PipeLeftKillX = -100;
+    private const int PipeSpacing = 300;
+    private const int PipeLeftKillX = -100;
 
+    private double m_velocityY;
     private readonly Player m_player;
+    private bool m_isFlapping;
     private readonly Vector2 m_playerSpawnPosition = new(x: 20, y: 190);
 
     private readonly List<PipePair> m_pipePairs = [];
@@ -36,11 +39,12 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
     ];
 
     private const double SkyElementLeftKillX = -260;
-    private const int SkyElementSpeed = 2;
+    private const int SkyElementSpeed = 40;
 
-    private readonly DispatcherTimer m_gameTimer = new();
+    private DateTime m_lastFrameTime;
 
-    private int m_gravity = FallGravity;
+    private AudioPlayer m_audioPlayer;
+    private bool m_isRunning;
 
     public double Score
     {
@@ -62,9 +66,6 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
         m_player = new Player(PlayerSprite);
         CreateSkyElements();
         CreatePipes();
-
-        m_gameTimer.Tick += OnGameTimerTick;
-        m_gameTimer.Interval = TimeSpan.FromMilliseconds(20);
     }
 
     private void CreateSkyElements()
@@ -102,9 +103,15 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
         }
     }
 
-    private void OnGameTimerTick(object? sender, EventArgs e)
+    private void OnRendering(object? sender, EventArgs e)
     {
-        m_player.Y += m_gravity;
+        if(!m_isRunning)
+            return;
+        var deltaTime = CalculateDeltaTime();
+
+        m_velocityY += Gravity * deltaTime;
+        m_velocityY = Math.Min(m_velocityY, MaxFallSpeed);
+        m_player.Y += m_velocityY * deltaTime;
 
         if (IsOutsideOfScreen(m_player))
         {
@@ -114,7 +121,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
         foreach (var pipePair in m_pipePairs)
         {
-            pipePair.X -= PipeSpeed;
+            pipePair.X -= PipeSpeed * deltaTime;
             if (pipePair.X < PipeLeftKillX)
             {
                 MoveToEnd(pipePair);
@@ -123,6 +130,8 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
             if (pipePair.IntersectsWith(m_player))
             {
+                m_audioPlayer.Stop();
+                m_audioPlayer.PlaySfx(SfxType.Boom);
                 m_player.TakeDamage();
                 EndGame();
                 return;
@@ -133,12 +142,20 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
         foreach (var skyElement in m_skyElements)
         {
-            skyElement.X -= SkyElementSpeed;
+            skyElement.X -= SkyElementSpeed * deltaTime;
             if (skyElement.X < SkyElementLeftKillX)
             {
                 skyElement.X += skyElementXIncrease;
             }
         }
+    }
+
+    private double CalculateDeltaTime()
+    {
+        var now = DateTime.Now;
+        var deltaTime = (now - m_lastFrameTime).TotalSeconds;
+        m_lastFrameTime = now;
+        return deltaTime;
     }
 
     private void MoveToEnd(PipePair pipe)
@@ -156,11 +173,15 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
     private bool IsOutsideOfScreen(Player player) => player.Y < -player.Height || (player.Y  > Height);
 
-    public override void Activate() => StartGame();
+    public override void Activate(MainWindowViewModel mainViewModel)
+    {
+        m_audioPlayer = mainViewModel.AudioPlayer;
+        m_audioPlayer.Play("Assets/Music/TempestLoop1.wav");
+        StartGame();
+    }
 
     private void StartGame()
     {
-        AudioPlayer.Play("Assets/Music/TempestLoop1.wav");
         GameCanvas.Focus();
         Keyboard.Focus(GameCanvas);
         Score = 0;
@@ -177,30 +198,34 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
             m_skyElements[i].SetPosition(m_skyElementSpawnPositions[i]);
         }
 
-        m_gameTimer.Start();
+        CompositionTarget.Rendering += OnRendering;
+        m_lastFrameTime = DateTime.Now;
+        m_isRunning = true;
     }
 
     private void EndGame()
     {
-        m_gameTimer.Stop();
+        m_isRunning = false;
+        CompositionTarget.Rendering -= OnRendering;
         RequestView(ViewType.GameOver, new GameStatsUpdate(Score));
     }
 
     private void GameCanvas_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        if (m_isFlapping)
+            return;
+
+        m_isFlapping = true;
+        m_audioPlayer.PlaySfx(SfxType.Jump);
         m_player.SetRotation(FlapRotation);
-        m_gravity = FlapGravity;
+        m_velocityY = FlapImpulse;
     }
 
     private void GameCanvas_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         m_player.SetRotation(FallRotation);
-        m_gravity = FallGravity;
+        m_isFlapping = false;
     }
 
-    public void Dispose()
-    {
-        m_gameTimer.Stop();
-        m_gameTimer.Tick -= OnGameTimerTick;
-    }
+    public void Dispose() => CompositionTarget.Rendering -= OnRendering;
 }
