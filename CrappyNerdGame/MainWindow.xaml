@@ -9,13 +9,13 @@
         xmlns:enums="clr-namespace:CrappyNerdGame.Enums"
         xmlns:core="clr-namespace:CrappyNerdGame.Core"
         mc:Ignorable="d"
-        Title="Crappy Nerd"
         ResizeMode="NoResize" 
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        Closing="MainWindow_OnClosing"
         Width="{x:Static core:GameWindowSettings.Width}"
-        Height="{x:Static core:GameWindowSettings.Height}">
+        Height="{x:Static core:GameWindowSettings.Height}"
+        Title="Crappy Nerd"
+        Closing="MainWindow_OnClosing">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 

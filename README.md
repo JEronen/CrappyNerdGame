@@ -24,9 +24,10 @@ the **MVVM** design pattern.
 - **Third-party assets**: listed in `THIRD_PARTY_NOTICES.txt`
 
 ## TODO
-- [ ] Add App icon.
 - [ ] Store high scores.
 - [ ] Add increasing difficulty.
 - [ ] Read gameplay settings from an external file.
+- [ ] Read credits from an external file.
+
 
 
