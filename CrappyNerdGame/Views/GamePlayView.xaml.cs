@@ -112,8 +112,8 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
         m_velocityY += Gravity * deltaTime;
         m_velocityY = Math.Min(m_velocityY, MaxFallSpeed);
         m_player.Y += m_velocityY * deltaTime;
-
-        if (IsOutsideOfScreen(m_player))
+        var isPlayerOutsideOfScreen = m_player.Y < -m_player.Height || m_player.Y > Height;
+        if (isPlayerOutsideOfScreen)
         {
             EndGame();
             return;
@@ -160,7 +160,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
     private void MoveToEnd(PipePair pipe)
     {
-        double maxX = m_pipePairs.Max(p => p.X);
+        var maxX = m_pipePairs.Max(p => p.X);
         pipe.X = maxX + PipeSpacing;
         RandomizePipe(pipe);
     }
@@ -170,8 +170,6 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
         double centerY = Random.Shared.Next(200, 450);
         pipe.SetGap(centerY, gap: 140);
     }
-
-    private bool IsOutsideOfScreen(Player player) => player.Y < -player.Height || (player.Y  > Height);
 
     public override void Activate(MainWindowViewModel mainViewModel)
     {
