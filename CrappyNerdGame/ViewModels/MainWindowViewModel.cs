@@ -30,7 +30,7 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
 
     public MainWindowViewModel()
     {
-        AudioPlayer = new AudioPlayer();
+        AudioPlayer = new AudioPlayer(sfxPath: "Assets/SFX/");
         m_viewContainer = new ViewContainer();
         SetView(ViewType.StartMenu);
         RestartCommand = new RelayCommand(() => SetView(ViewType.GamePlay));

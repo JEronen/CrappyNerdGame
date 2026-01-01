@@ -16,7 +16,7 @@ public sealed class AudioPlayer : IDisposable
     private AudioFileReader? m_reader;
     private bool m_isPlaying;
 
-    public AudioPlayer(string sfxPath = "Assets/SFX/")
+    public AudioPlayer(string sfxPath)
     {
         m_engine = new AudioPlaybackEngine();
         m_soundEffects = FastEnum.GetValues<SfxType>()
