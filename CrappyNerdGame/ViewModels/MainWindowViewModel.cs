@@ -31,7 +31,16 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
     public MainWindowViewModel()
     {
         AudioPlayer = new AudioPlayer(sfxPath: "Assets/SFX/", musicPath: "Assets/Music/");
-        m_viewContainer = new ViewContainer();
+        m_viewContainer = new ViewContainer
+        {
+            Views = new Dictionary<ViewType, GameViewBase>(4)
+            {
+                [ViewType.StartMenu] = new StartMenuView(),
+                [ViewType.GamePlay] = new GamePlayView(),
+                [ViewType.GameOver] = new GameOverView(),
+                [ViewType.Credits] = new CreditsView()
+            }
+        };
         SetView(ViewType.StartMenu);
         RestartCommand = new RelayCommand(() => SetView(ViewType.GamePlay));
         StartMenuCommand = new RelayCommand (() => SetView(ViewType.StartMenu));
@@ -44,6 +53,8 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
         FadeRequested?.Invoke(this, FadeType.FadeFromBlack);
         if (ActiveView != null)
         {
+            // Overlay views (such as GameOverView) do not replace the ActiveView.
+            // They are hosted on top of the ActiveView and may request navigation back (restart).
             if (ActiveView.ViewType == type)
             {
                 ActiveView.Activate(this);
@@ -58,6 +69,8 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
 
     private void OnViewRequested(object? sender, NavigationEventArgs e)
     {
+        // Overlay views (such as GameOverView) do not replace the ActiveView.
+        // See SetView() for full behavior.
         if (e.ViewType == ViewType.GameOver)
         {
             IsGameOver = true;
@@ -74,6 +87,6 @@ public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
         {
             ActiveView.ViewRequested -= OnViewRequested;
         }
-        m_viewContainer.CleanUp();
+        m_viewContainer.Dispose();
     }
 }
