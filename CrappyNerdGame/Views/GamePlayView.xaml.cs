@@ -174,7 +174,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
     public override void Activate(MainWindowViewModel mainViewModel)
     {
         m_audioPlayer = mainViewModel.AudioPlayer;
-        m_audioPlayer.Play("Assets/Music/TempestLoop1.wav");
+        m_audioPlayer.Play(MusicType.Gameplay);
         StartGame();
     }
 

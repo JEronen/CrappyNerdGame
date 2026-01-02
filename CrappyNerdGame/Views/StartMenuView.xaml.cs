@@ -12,7 +12,7 @@ public partial class StartMenuView : GameViewBase
         ViewType = ViewType.StartMenu;
     }
 
-    public override void Activate(MainWindowViewModel mainViewModel) => mainViewModel.AudioPlayer.Play("Assets/Music/EchoesAtDuskLoop1.wav");
+    public override void Activate(MainWindowViewModel mainViewModel) => mainViewModel.AudioPlayer.Play(MusicType.StartMenu);
 
     private void RequestViewButtonClick(object sender, RoutedEventArgs e)
     {
