@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -175,18 +176,17 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
     {
         m_audioPlayer = mainViewModel.AudioPlayer;
         m_audioPlayer.Play(MusicType.Gameplay);
-        StartGame();
+        ResetGame();
     }
 
-    private void StartGame()
+    private void ResetGame()
     {
         GameCanvas.Focus();
         Keyboard.Focus(GameCanvas);
         Score = 0;
-
         m_player.SetPosition(m_playerSpawnPosition);
-        m_player.Activate();
-
+        m_player.Reset();
+        SpeechBubble.Visibility = Visibility.Visible;
         ResetPipes();
 
         Debug.Assert(m_skyElements.Count == m_skyElementSpawnPositions.Length);
@@ -195,10 +195,14 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
         {
             m_skyElements[i].SetPosition(m_skyElementSpawnPositions[i]);
         }
+    }
 
-        CompositionTarget.Rendering += OnRendering;
+    private void StartGame()
+    {
         m_lastFrameTime = DateTime.Now;
         m_isRunning = true;
+        CompositionTarget.Rendering += OnRendering;
+        SpeechBubble.Visibility = Visibility.Collapsed;
     }
 
     private void EndGame()
@@ -210,6 +214,12 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
     private void GameCanvas_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        if (!m_isRunning)
+        {
+            StartGame();
+            return;
+        }
+
         if (m_isFlapping)
             return;
 

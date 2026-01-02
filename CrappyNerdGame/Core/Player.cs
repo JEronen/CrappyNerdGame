@@ -13,9 +13,7 @@ public sealed class Player : GameObject2D
 
     public Player(Image sprite) : base(sprite, ObjectType.Player) => m_dropShadowEffect = (DropShadowEffect)Sprite.Effect;
 
-    public void Activate() => SetDropShadowEffectColor(m_colors.Alive);
+    public void Reset() => m_dropShadowEffect.Color = m_colors.Alive;
 
-    public void TakeDamage() => SetDropShadowEffectColor(m_colors.Dead);
-
-    private void SetDropShadowEffectColor(Color color) => m_dropShadowEffect.Color = color;
+    public void TakeDamage() => m_dropShadowEffect.Color = m_colors.Dead;
 }

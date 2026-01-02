@@ -29,7 +29,6 @@ the **MVVM** design pattern.
 - [ ] Read gameplay settings from an external file.
 - [ ] Read credits from an external file.
 - [ ] Introduce the Settings screen for adjusting volume and other settings.
-- [ ] Add a tutorial screen shown before gameplay starts to clarify to the player that the character is controlled with the left mouse button.
 
 
 

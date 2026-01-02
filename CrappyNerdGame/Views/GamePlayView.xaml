@@ -38,13 +38,13 @@
                Source="/Assets/Images/PipeDown.png"
                Tag="{x:Static enums:ObjectType.PipeBottom}"
                Visibility="Collapsed"/>
-     
+
         <Image x:Name="PlayerSprite" 
                Width="50" 
                Height="50"  
                Source="/Assets/Images/Nerd.png" 
+               Canvas.Left="20"
                Canvas.Top="190" 
-               Canvas.Left="20" 
                Canvas.ZIndex="1"
                Tag="{x:Static enums:ObjectType.Player}"
                Stretch="Fill">
@@ -56,6 +56,45 @@
                         Opacity="1" />
             </Image.Effect>
         </Image>
+
+        <Canvas x:Name="SpeechBubble" Visibility="Visible">
+            <Border HorizontalAlignment="Center" 
+                    VerticalAlignment="Top"
+                    Height="60" 
+                    Canvas.Left="36" 
+                    Canvas.Top="109" >
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border Background="White"
+                        BorderBrush="Black"
+                        BorderThickness="2"
+                        CornerRadius="10"
+                        Padding="8"
+                        Width="180" 
+                        Height="68"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Top" 
+                        Margin="-11,-6,0,0">
+                        <TextBlock Text="Click the left mouse button to play"
+                            TextWrapping="Wrap"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="Black" />
+                    </Border>
+                    <Polygon Points="20,0 30,10 10,10"
+                        Fill="White"
+                        Stroke="Black"
+                        RenderTransformOrigin="0.5,0.5" 
+                        StrokeThickness="0" 
+                        Margin="1,58,97,-8">
+                        <Polygon.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1"/>
+                            </TransformGroup>
+                        </Polygon.RenderTransform>
+                    </Polygon>
+                </Grid>
+            </Border>
+        </Canvas>
         <Label x:Name="ScoreLabel"
                Canvas.Left="5"
                Canvas.ZIndex="2"
