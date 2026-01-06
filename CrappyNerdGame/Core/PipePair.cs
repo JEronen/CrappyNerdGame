@@ -3,33 +3,47 @@ using CrappyNerdGame.Enums;
 
 namespace CrappyNerdGame.Core;
 
-public sealed class PipePair
+public sealed class PipePair : IDisposable
 {
-    private GameObject2D Top { get; }
-    private GameObject2D Bottom { get; }
+    private Pipe Top { get; }
+    private Pipe Bottom { get; }
 
     public double X
     {
-        get => Top.X;
+        get => Top.Transform.Position.X;
         set
         {
-            Top.X = value;
-            Bottom.X = value;
+            Top.Transform.SetX(value);
+            Bottom.Transform.SetX(value);
         }
     }
 
-    public PipePair(Image top, Image bottom)
+    public PipePair(Image top, Image bottom, Canvas canvas)
     {
-        Top = new GameObject2D(top, ObjectType.PipeTop);
-        Bottom = new GameObject2D(bottom, ObjectType.PipeBottom);
+        Top = new Pipe(top, ObjectType.PipeTop, canvas);
+        Bottom = new Pipe(bottom, ObjectType.PipeBottom, canvas);
+        canvas.Children.Add(top);
+        canvas.Children.Add(bottom);
     }
 
     public void SetGap(double centerY, double gap)
     {
         var half = gap * 0.5f;
-        Top.Y = centerY + half;
-        Bottom.Y = centerY - half - Bottom.Height;
+        Top.Transform.SetY(centerY + half);
+        Bottom.Transform.SetY(centerY - half - Bottom.Height);
     }
 
-    public bool IntersectsWith(GameObject2D other) => Top.IntersectsWith(other) || Bottom.IntersectsWith(other);
+    public bool IntersectsWith(Player player)
+    {
+        var otherCollider = player.Collider;
+
+        return Top.Collider.Intersects(otherCollider) ||
+               Bottom.Collider.Intersects(otherCollider);
+    }
+
+    public void Dispose()
+    {
+        Top.Dispose();
+        Bottom.Dispose();
+    }
 }

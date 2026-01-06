@@ -29,7 +29,6 @@ the **MVVM** design pattern.
 - [ ] Read gameplay settings from an external file.
 - [ ] Read credits from an external file.
 - [ ] Introduce the Settings screen for adjusting volume and other settings.
-- [ ] Improve Hitboxes for better collision detection.
 
 
 

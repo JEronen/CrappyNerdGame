@@ -1,45 +1,43 @@
-﻿using System.Numerics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Controls;
+using CrappyNerdGame.Core.Components;
 using CrappyNerdGame.Enums;
 
 namespace CrappyNerdGame.Core;
 
-public class GameObject2D
+public class GameObject2D : IDisposable
 {
-    protected Image Sprite { get; }
+    private bool m_isDisposed;
+
+    public Transform2D Transform { get; } = new();
+    public SpriteRenderer2D SpriteRenderer { get; }
 
     public ObjectType Type { get; }
 
-    public double X
-    {
-        get => Canvas.GetLeft(Sprite);
-        set => Canvas.SetLeft(Sprite, value);
-    }
+    public double Width => SpriteRenderer.Width;
 
-    public double Y
-    {
-        get => Canvas.GetTop(Sprite);
-        set => Canvas.SetTop(Sprite, value);
-    }
-
-    public double Width => Sprite.Width;
-
-    public double Height => Sprite.Height;
-
-    private Rect HitBox => new(X, Y, Width-10, Height-10);
+    public double Height => SpriteRenderer.Height;
 
     public GameObject2D(Image sprite, ObjectType type)
     {
-        Sprite = sprite;
-        Sprite.RenderTransformOrigin = new Point(0.5, 0.5);
+        SpriteRenderer = new SpriteRenderer2D(Transform, sprite);
         Type = type;
     }
 
-    public bool IntersectsWith(GameObject2D other) => HitBox.IntersectsWith(other.HitBox);
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-    public void SetPosition(Vector2 position) => (X, Y) = (position.X, position.Y);
-
-    public void SetRotation(double angle) => Sprite.RenderTransform = new RotateTransform(angle);
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!m_isDisposed)
+        {
+            m_isDisposed = true;
+            if (disposing)
+            {
+                SpriteRenderer.Dispose();
+            }
+        }
+    }
 }

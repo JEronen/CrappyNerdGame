@@ -16,9 +16,9 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
     private const int FlapRotation = -20;
     private const int FallRotation = 5;
     private const int Gravity = 1800;
-    private const int FlapImpulse = -400;
-    private const int MaxFallSpeed = 950;
-    private const int PipeSpeed = 200;
+    private const int FlapImpulse = -415;
+    private const int MaxFallSpeed = 1000;
+    private const int PipeSpeed = 240;
     private const int PipeCount = 3;
     private const int PipeX = 500;
     private const int PipeSpacing = 300;
@@ -64,7 +64,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
     {
         InitializeComponent();
         ViewType = ViewType.GamePlay;
-        m_player = new Player(PlayerSprite);
+        m_player = new Player(PlayerSprite, GameCanvas);
         CreateSkyElements();
         CreatePipes();
     }
@@ -72,7 +72,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
     private void CreateSkyElements()
     {
         foreach (var image in GameCanvas.Children.OfType<Image>()
-                     .Where(x => x.Tag is ObjectType.SkyElement))
+                     .Where(x => x.Tag is ObjectType.SkyElement).ToArray())
             m_skyElements.Add(new GameObject2D(image, ObjectType.SkyElement));
     }
 
@@ -83,10 +83,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
             var top = PipeUpTemplate.Clone();
             var bottom = PipeDownTemplate.Clone();
 
-            GameCanvas.Children.Add(top);
-            GameCanvas.Children.Add(bottom);
-
-            var pair = new PipePair(top, bottom)
+            var pair = new PipePair(top, bottom, GameCanvas)
             {
                 X = PipeX + i * PipeSpacing
             };
@@ -112,8 +109,9 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
         m_velocityY += Gravity * deltaTime;
         m_velocityY = Math.Min(m_velocityY, MaxFallSpeed);
-        m_player.Y += m_velocityY * deltaTime;
-        var isPlayerOutsideOfScreen = m_player.Y < -m_player.Height || m_player.Y > Height;
+        m_player.Transform.TranslateY(m_velocityY * deltaTime);
+        var isPlayerOutsideOfScreen = m_player.Transform.Position.Y < -m_player.Height ||
+                                      m_player.Transform.Position.Y > Height;
         if (isPlayerOutsideOfScreen)
         {
             EndGame();
@@ -143,10 +141,10 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
         foreach (var skyElement in m_skyElements)
         {
-            skyElement.X -= SkyElementSpeed * deltaTime;
-            if (skyElement.X < SkyElementLeftKillX)
+            skyElement.Transform.TranslateX(-SkyElementSpeed * deltaTime);
+            if (skyElement.Transform.Position.X < SkyElementLeftKillX)
             {
-                skyElement.X += skyElementXIncrease;
+                skyElement.Transform.TranslateX(skyElementXIncrease);
             }
         }
     }
@@ -184,7 +182,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
         GameCanvas.Focus();
         Keyboard.Focus(GameCanvas);
         Score = 0;
-        m_player.SetPosition(m_playerSpawnPosition);
+        m_player.Transform.SetPosition(m_playerSpawnPosition);
         m_player.Reset();
         SpeechBubble.Visibility = Visibility.Visible;
         ResetPipes();
@@ -193,7 +191,7 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
         for (var i = 0; i < m_skyElements.Count && i < m_skyElementSpawnPositions.Length; i++)
         {
-            m_skyElements[i].SetPosition(m_skyElementSpawnPositions[i]);
+            m_skyElements[i].Transform.SetPosition(m_skyElementSpawnPositions[i]);
         }
     }
 
@@ -225,15 +223,21 @@ public sealed partial class GamePlayView : GameViewBase, IDisposable
 
         m_isFlapping = true;
         m_audioPlayer.PlaySfx(SfxType.Jump);
-        m_player.SetRotation(FlapRotation);
+        m_player.Transform.SetRotation(FlapRotation);
         m_velocityY = FlapImpulse;
     }
 
     private void GameCanvas_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        m_player.SetRotation(FallRotation);
+        m_player.Transform.SetRotation(FallRotation);
         m_isFlapping = false;
     }
 
-    public void Dispose() => CompositionTarget.Rendering -= OnRendering;
+    public void Dispose()
+    {
+        CompositionTarget.Rendering -= OnRendering;
+        m_player.Dispose();
+        m_skyElements.ForEach(x => x.Dispose());
+        m_pipePairs.ForEach(x => x.Dispose());
+    }
 }
