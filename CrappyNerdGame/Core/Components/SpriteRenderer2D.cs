@@ -14,11 +14,11 @@ public sealed class SpriteRenderer2D : IDisposable
 
     public Size Size => new(Width, Height);
 
-    public SpriteRenderer2D(Transform2D transform, Image sprite)
+    public SpriteRenderer2D(Image sprite, Transform2D transform)
     {
-        m_transform = transform;
         m_sprite = sprite;
         m_sprite.RenderTransformOrigin = new Point(0.5f, 0.5f);
+        m_transform = transform;
         m_transform.Changed += OnTransformChanged;
     }
 

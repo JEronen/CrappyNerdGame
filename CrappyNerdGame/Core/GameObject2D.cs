@@ -19,7 +19,7 @@ public class GameObject2D : IDisposable
 
     public GameObject2D(Image sprite, ObjectType type)
     {
-        SpriteRenderer = new SpriteRenderer2D(Transform, sprite);
+        SpriteRenderer = new SpriteRenderer2D(sprite, Transform);
         Type = type;
     }
 
