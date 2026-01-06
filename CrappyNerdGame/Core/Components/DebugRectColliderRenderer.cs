@@ -8,8 +8,8 @@ using CrappyNerdGame.Core.Components;
 public sealed class DebugRectColliderRenderer : IDisposable
 {
     private readonly Transform2D m_transform;
-    private readonly RectangleGeometry m_hitRectGeometry = new();
     private readonly RectCollider2D m_collider;
+    private readonly RectangleGeometry m_hitRectGeometry = new();
 
     public DebugRectColliderRenderer(Transform2D transform, RectCollider2D collider, Canvas canvas)
     {

@@ -6,8 +6,8 @@ namespace CrappyNerdGame.Core.Components;
 
 public sealed class SpriteRenderer2D : IDisposable
 {
-    private readonly Transform2D m_transform;
     private readonly Image m_sprite;
+    private readonly Transform2D m_transform;
 
     public double Width => m_sprite.Width;
     public double Height => m_sprite.Height;
