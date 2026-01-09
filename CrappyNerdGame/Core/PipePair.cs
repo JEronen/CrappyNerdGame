@@ -33,13 +33,9 @@ public sealed class PipePair : IDisposable
         Bottom.Transform.SetY(centerY - half - Bottom.Height);
     }
 
-    public bool IntersectsWith(Player player)
-    {
-        var otherCollider = player.Collider;
-
-        return Top.Collider.Intersects(otherCollider) ||
-               Bottom.Collider.Intersects(otherCollider);
-    }
+    public bool IntersectsWith(Player player) =>
+        Top.Collider.Intersects(player.Collider) ||
+        Bottom.Collider.Intersects(player.Collider);
 
     public void Dispose()
     {

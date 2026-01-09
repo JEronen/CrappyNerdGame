@@ -31,13 +31,10 @@ public class GameObject2D : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!m_isDisposed)
+        if (!m_isDisposed && disposing)
         {
+            SpriteRenderer.Dispose();
             m_isDisposed = true;
-            if (disposing)
-            {
-                SpriteRenderer.Dispose();
-            }
         }
     }
 }
