@@ -5,7 +5,7 @@ using CrappyNerdGame.ViewModels;
 
 namespace CrappyNerdGame;
 
-public partial class MainWindow
+public sealed partial class MainWindow
 {
     private readonly MainWindowViewModel m_viewModel;
 

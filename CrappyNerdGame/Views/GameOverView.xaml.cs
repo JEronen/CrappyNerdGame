@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace CrappyNerdGame.Views;
 
-public partial class GameOverView : GameViewBase
+public sealed partial class GameOverView : GameViewBase
 {
     public static readonly DependencyProperty ScoreProperty =
         DependencyProperty.Register(

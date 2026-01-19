@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using CrappyNerdGame.Core;
 using CrappyNerdGame.Core.Components;
+using CrappyNerdGame.Enums;
 
 // ReSharper disable once UnusedType.Global Used during Debug-mode when DEBUG_COLLISIONS is defined.
 public sealed class DebugRectColliderRenderer : IDisposable

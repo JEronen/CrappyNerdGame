@@ -4,7 +4,7 @@ using CrappyNerdGame.ViewModels;
 
 namespace CrappyNerdGame.Views;
 
-public partial class StartMenuView : GameViewBase
+public sealed partial class StartMenuView : GameViewBase
 {
     public StartMenuView()
     {

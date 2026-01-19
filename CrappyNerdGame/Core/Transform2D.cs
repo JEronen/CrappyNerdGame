@@ -1,12 +1,7 @@
 ﻿using System.Numerics;
+using CrappyNerdGame.Enums;
 
 namespace CrappyNerdGame.Core;
-
-public enum TransformEventType
-{
-    Position,
-    Rotation
-}
 
 public sealed class Transform2D
 {
@@ -14,12 +9,6 @@ public sealed class Transform2D
     public double Rotation { get; private set; }
 
     public event Action<TransformEventType>? Changed;
-
-    public void Translate(Vector2 delta)
-    {
-        if (delta == Vector2.Zero) return;
-        SetPosition(Position + delta);
-    }
 
     public void TranslateX(double dx)
     {

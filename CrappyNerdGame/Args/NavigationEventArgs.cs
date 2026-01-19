@@ -7,7 +7,7 @@ public sealed class NavigationEventArgs(ViewType viewType, GameStatsUpdate stats
 {
     public ViewType ViewType { get; } = viewType;
 
-    public GameStatsUpdate StatsUpdate { get; init; } = statsUpdate;
+    public GameStatsUpdate StatsUpdate { get; } = statsUpdate;
 
     public NavigationEventArgs(ViewType viewType) : this(viewType, GameStatsUpdate.Empty){}
 }

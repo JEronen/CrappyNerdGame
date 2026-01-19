@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace CrappyNerdGame
+namespace CrappyNerdGame;
+
+public sealed partial class App : Application
 {
-    public partial class App : Application
-    {
-    }
 }

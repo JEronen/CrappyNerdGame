@@ -7,7 +7,7 @@ using CrappyNerdGame.ViewModels;
 
 namespace CrappyNerdGame.Views;
 
-public partial class CreditsView : GameViewBase
+public sealed partial class CreditsView : GameViewBase
 {
     private const double Speed = 95;
 
