@@ -13,7 +13,6 @@ public sealed partial class CreditsView : GameViewBase
 
     private bool m_isScrolling;
     private double m_y;
-    private Stopwatch m_stopwatch;
     private DateTime m_lastFrameTime;
 
     public CreditsView()
@@ -25,7 +24,6 @@ public sealed partial class CreditsView : GameViewBase
     public override void Activate(MainWindowViewModel mainViewModel)
     {
         m_y = 500;
-        m_stopwatch = Stopwatch.StartNew();
         m_lastFrameTime = DateTime.Now;
         CreditsTransform.Y = m_y;
         m_isScrolling = true;
@@ -51,7 +49,6 @@ public sealed partial class CreditsView : GameViewBase
     private void StopScrolling()
     {
         m_isScrolling = false;
-        m_stopwatch.Reset();
         CompositionTarget.Rendering -= OnRendering;
     }
 
